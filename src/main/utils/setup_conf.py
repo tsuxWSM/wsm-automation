@@ -1,18 +1,18 @@
 import os
-from enum import Enum
+from .system_constants import SupportedBrowsers, Site
 from .testrails import APIClient
 
 
 # Dictionary of all Available base URLs that we have in place for tests targeting
 _av_urls = {
-    'SDC': 'https://wsmsdc.webshopmanager.com',
-    'HHP': 'https://highwayandheavyparts.com',
-    'EMP': 'https://extrememetalproducts.com',
-    'KTP': 'https://ktperformance.net',
-    'CVL': 'https://coverlaymfg.com',
-    'PSU': 'https://pitstopusa.com',
-    'RVR': 'https://rivaracing.com',
-    'EIB': 'https://eibach.com'
+    Site.SDC.value: 'https://wsmsdc.webshopmanager.com',
+    Site.HHP.value: 'https://highwayandheavyparts.com',
+    Site.EMP.value: 'https://extrememetalproducts.com',
+    Site.KTP.value: 'https://ktperformance.net',
+    Site.CVL.value: 'https://coverlaymfg.com',
+    Site.PSU.value: 'https://pitstopusa.com',
+    Site.RVR.value: 'https://rivaracing.com',
+    Site.EIB.value: 'https://eibach.com'
 }
 
 # Dictionary of all Available Proxy configurations for each dev env av for testing purposes as a way of sandbox
@@ -97,19 +97,3 @@ def prettify_suite_name(name: str):
     """Prettifies Test Suite Name by cleaning all class symbol chars
     :arg name: Suite name to be prettified"""
     return (name.split(".")[name.split(".").__len__() - 1])[0:-2]
-
-
-class SupportedBrowsers(Enum):
-    CHROME = "CHR"
-    FIREFOX = "FFX"
-
-
-class Site(Enum):
-    SDC = "SDC"
-    HHP = "HHP"
-    EMP = "EMP"
-    KTP = "KTP"
-    CVL = "CVL"
-    PSU = "PSU"
-    RVR = "RVR"
-    EIB = "EIB"

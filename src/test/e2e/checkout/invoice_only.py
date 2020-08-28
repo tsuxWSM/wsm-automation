@@ -1,12 +1,11 @@
 import pytest
 from ....main.web_shop.pages.coverlay.home_page import HomePage
-from ....main.web_shop.pages.coverlay.cart_page import CoverlayCartPage
-from ....main.web_shop.pages.coverlay.checkout_page import CoverlayCheckoutPage
 from ....main.web_shop.pages.coverlay.login_popup import LoginPopup
 from ....main.web_shop.pages.coverlay.product_details_page import ProductDetailsPage
 from ....main.wsm_admin.test_data.customer_data_provider import CustomerDataProvider
 from ....main.web_shop.test_data.home_data_provider import HomeDataProvider
 from ....main.web_shop.test_data.product_data_provider import ProductDetailsDataProvider
+from ....main.web_shop.pages.page_factory import PageBuilder
 
 _test_customer = CustomerDataProvider().customer_invoice_only
 _test_product = ProductDetailsDataProvider().kit_10_5151C
@@ -47,7 +46,8 @@ class InvoiceOnlyCheckoutTestSuite:
         page.add_to_cart_button.click()
 
     def test_navigate_to_cart(self):
-        landing_page = CoverlayCartPage(self.driver)
+        build_page = PageBuilder(self.site).get_factory()
+        landing_page = build_page.cart(self.driver)
 
         assert landing_page.is_partial_text_present("My Cart")
         assert landing_page.is_text_present(_test_product.title)
@@ -57,7 +57,8 @@ class InvoiceOnlyCheckoutTestSuite:
         landing_page.proceed_to_checkout_button.click()
 
     def test_checkout_order_invoice(self):
-        landing_page = CoverlayCheckoutPage(self.driver, invoice_only=True, signed_user=True)
+        build_page = PageBuilder(self.site).get_factory()
+        landing_page = build_page.checkout(self.driver, invoice_only=True, signed_user=True)
         landing_page.is_partial_text_present(_test_product.title)
 
     def teardown_suite(self, delete_customer):
